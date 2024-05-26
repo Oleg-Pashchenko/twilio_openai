@@ -66,9 +66,10 @@ def download_file(url, filename):
 
 def is_supported_format(filename):
     mime_type, _ = mimetypes.guess_type(filename)
+    print(mime_type)
     supported_formats = ['audio/flac', 'audio/x-m4a', 'audio/mp3', 'video/mp4', 'audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/wav', 'audio/webm']
     return mime_type in supported_formats
 
 
-download_file('https://api.twilio.com/2010-04-01/Accounts/AC6742f16eb65321c514705f79689a7f94/Recordings/RE6a828dea6e867891fb6a18463bdd7801',
-              '84619.mp3')
+print(is_supported_format('84619.mp3'))
+print(transcribe('84619.mp3'))
