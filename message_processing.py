@@ -1,4 +1,6 @@
 import os
+import time
+
 import requests
 import random
 import mimetypes
@@ -11,7 +13,6 @@ client = OpenAI(api_key=os.getenv('API_KEY'))
 
 def execute(recording_link: str, message_history: list[dict]):
     filename = f'{random.randint(10000, 100000)}.mp3'
-    print('Message processing:', recording_link, filename)
     download_file(recording_link, filename)
 
     # Проверка формата файла
@@ -64,12 +65,13 @@ def download_file(url, filename):
     dotenv.load_dotenv()
     account_sid = os.getenv('SID')
     auth_token = os.getenv('TOKEN')
-    print(url)
-    print(filename)
-    print(account_sid)
-    print(auth_token)
-    response = requests.get(url, auth=(account_sid, auth_token))
-    print(response.status_code)
+
+    for i in range(10):
+        response = requests.get(url, auth=(account_sid, auth_token))
+        print(response.status_code)
+        if response.status_code == 200:
+            break
+        time.sleep(1)
     with open(filename, 'wb') as f:
         f.write(response.content)
 
