@@ -71,5 +71,4 @@ def is_supported_format(filename):
     return mime_type in supported_formats
 
 
-print(is_supported_format('84619.mp3'))
-print(transcribe('84619.mp3'))
+print(execute('https://api.twilio.com/2010-04-01/Accounts/AC6742f16eb65321c514705f79689a7f94/Recordings/REefd1c0988eecd470d0010e39ce65eb86', []))
