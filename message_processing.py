@@ -60,6 +60,7 @@ def download_file(url, filename):
     account_sid = os.getenv('SID')
     auth_token = os.getenv('TOKEN')
     response = requests.get(url, auth=(account_sid, auth_token))
+    print(response.status_code)
     with open(filename, 'wb') as f:
         f.write(response.content)
 
@@ -68,3 +69,6 @@ def is_supported_format(filename):
     supported_formats = ['audio/flac', 'audio/x-m4a', 'audio/mp3', 'video/mp4', 'audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/wav', 'audio/webm']
     return mime_type in supported_formats
 
+
+download_file('https://api.twilio.com/2010-04-01/Accounts/AC6742f16eb65321c514705f79689a7f94/Recordings/RE6a828dea6e867891fb6a18463bdd7801',
+              '84619.mp3')
