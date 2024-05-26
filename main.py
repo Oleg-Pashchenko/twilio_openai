@@ -18,6 +18,7 @@ def voice():
 
     recording_url = request.values.get('RecordingUrl', None)
     call_id = request.values.get('CallSid', None)
+    print(request.values)
     print(f'{call_id=}, {recording_url=}')
     resp = VoiceResponse()
     if recording_url and call_id in calls.keys():
