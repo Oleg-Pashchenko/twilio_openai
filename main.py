@@ -25,7 +25,7 @@ def voice():
         answer, message_history = message_processing.execute(recording_url, message_history)
         calls[call_id] = message_history
         resp.say(answer)
-    if not call_id:
+    if not call_id in calls.keys():
         calls[call_id] = prompt
         resp.say(hi_message)
     resp.record()
