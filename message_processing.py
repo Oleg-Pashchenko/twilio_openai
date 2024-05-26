@@ -64,6 +64,10 @@ def download_file(url, filename):
     dotenv.load_dotenv()
     account_sid = os.getenv('SID')
     auth_token = os.getenv('TOKEN')
+    print(url)
+    print(filename)
+    print(account_sid)
+    print(auth_token)
     response = requests.get(url, auth=(account_sid, auth_token))
     print(response.status_code)
     with open(filename, 'wb') as f:
