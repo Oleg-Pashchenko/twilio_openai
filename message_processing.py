@@ -8,6 +8,7 @@ import dotenv
 dotenv.load_dotenv()
 client = OpenAI(api_key=os.getenv('API_KEY'))
 
+
 def execute(recording_link: str, message_history: list[dict]):
     filename = f'{random.randint(10000, 100000)}.mp3'
     print('Message processing:', recording_link, filename)
@@ -33,6 +34,7 @@ def execute(recording_link: str, message_history: list[dict]):
     os.remove(filename)
     return answer, message_history
 
+
 def transcribe(filename):
     try:
         with open(filename, "rb") as audio_file:
@@ -45,6 +47,7 @@ def transcribe(filename):
         print(f"Error during transcription: {e}")
         return None
 
+
 def generate_answer(messages):
     try:
         completion = client.chat.completions.create(
@@ -56,19 +59,17 @@ def generate_answer(messages):
         print(f"Error generating answer: {e}")
         return "Error: Unable to generate answer"
 
+
 def download_file(url, filename):
     account_sid = os.getenv('SID')
     auth_token = os.getenv('TOKEN')
     response = requests.get(url, auth=(account_sid, auth_token))
-    print(response.status_code)
     with open(filename, 'wb') as f:
         f.write(response.content)
 
+
 def is_supported_format(filename):
     mime_type, _ = mimetypes.guess_type(filename)
-    print(mime_type)
-    supported_formats = ['audio/flac', 'audio/x-m4a', 'audio/mp3', 'video/mp4', 'audio/mpeg', 'audio/mp4', 'audio/ogg', 'audio/wav', 'audio/webm']
+    supported_formats = ['audio/flac', 'audio/x-m4a', 'audio/mp3', 'video/mp4', 'audio/mpeg', 'audio/mp4', 'audio/ogg',
+                         'audio/wav', 'audio/webm']
     return mime_type in supported_formats
-
-
-print(execute('https://api.twilio.com/2010-04-01/Accounts/AC6742f16eb65321c514705f79689a7f94/Recordings/REefd1c0988eecd470d0010e39ce65eb86', []))
