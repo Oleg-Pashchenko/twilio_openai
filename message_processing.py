@@ -61,9 +61,11 @@ def generate_answer(messages):
 
 
 def download_file(url, filename):
+    dotenv.load_dotenv()
     account_sid = os.getenv('SID')
     auth_token = os.getenv('TOKEN')
     response = requests.get(url, auth=(account_sid, auth_token))
+    print(response.status_code)
     with open(filename, 'wb') as f:
         f.write(response.content)
 
