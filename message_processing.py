@@ -11,6 +11,7 @@ client = OpenAI(api_key=os.getenv('API_KEY'))
 
 def execute(recording_link: str, message_history: list[dict]):
     filename = f'{random.randint(10000, 100000)}.mp3'
+    print('Message processing:', recording_link, filename)
     download_file(recording_link, filename)
     transcription = transcribe(filename)
     message_history.append({'role': 'user', 'content': transcription})
