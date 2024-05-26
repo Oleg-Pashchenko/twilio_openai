@@ -5,16 +5,21 @@ import random
 from openai import OpenAI
 import dotenv
 
-
 dotenv.load_dotenv()
-url = 'https://api.twilio.com/2010-04-01/Accounts/AC6742f16eb65321c514705f79689a7f94/Recordings/RE9c14f37fcc3dd6f5e702253e73a6ae2d'
-filename = f'{random.randint(10000, 100000)}.mp3'
 client = OpenAI(api_key=os.getenv('API_KEY'))
 
-message_history = [
-    {"role": "system",
-     "content": "Ты ассистент команды аватарекс. Твоя задача продавать бананы, представляйся Анастасией."}
-]
+
+def execute(recording_link: str, message_history: list[dict]):
+    filename = f'{random.randint(10000, 100000)}.mp3'
+    download_file(recording_link, filename)
+    transcription = transcribe(filename)
+    message_history.append({'role': 'user', 'content': transcription})
+    print("Transcription:", transcription)
+    answer = generate_answer(message_history)
+    message_history.append({'role': 'assistant', 'content': answer})
+    print("GPT4O answer:", answer)
+    os.remove(filename)
+    return answer, message_history
 
 
 def transcribe(filename):
@@ -26,7 +31,7 @@ def transcribe(filename):
     return transcription.text
 
 
-def create_completion(messages):
+def generate_answer(messages):
     completion = client.chat.completions.create(
         model="gpt-4o",
         messages=messages
@@ -41,8 +46,3 @@ def download_file(url, filename):
     with open(filename, 'wb') as f:
         f.write(response.content)
 
-
-
-# download_file(url, filename)
-# transcription = transcribe(filename)
-# answer = generate_answer(transcription)

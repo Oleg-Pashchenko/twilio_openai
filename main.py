@@ -1,7 +1,11 @@
-from flask import Flask, request, Response
+from flask import Flask, request
 from twilio.twiml.voice_response import VoiceResponse
 
 app = Flask(__name__)
+
+prompt = {"role": "system",
+          "content": "Ты ассистент команды аватарекс. Твоя задача продавать бананы, представляйся Анастасией."}
+calls = []
 
 
 @app.route("/voice", methods=['GET', 'POST'])
