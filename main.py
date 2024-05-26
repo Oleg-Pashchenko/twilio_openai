@@ -29,7 +29,7 @@ def voice():
     if not call_id in calls.keys():
         calls[call_id] = prompt
         resp.say(hi_message)
-    resp.record()
+    resp.record(timeout=0.3)
     return str(resp)
 
 
